@@ -12,8 +12,23 @@
 
   <body>
     <div id="app">
+      <!--Event handling with vue and defining methods in app-->
       <h1>{{ message }}</h1>
+      <h1>Count: {{ count }}</h1>
       <input type="text" v-model="message" />
+      <button v-on:click="countUp" class="btn btn-primary">Count Up! </button>
+      <button v-on:click="countDown" class="btn btn-primary">Count Down! </button>
+
+      <button @click="countUp" class="btn btn-primary">Count Up! </button>
+      <button @click="countDown" class="btn btn-primary">Count Down! </button>
+
+      <p>
+        Visit: <a :href="url">{{ humanUrl }}</a>
+      </p>
+      <input type="text" class="form-control" v-model="url" />
+      <button @click="humanizeUrl" class="btn btn-primary">Humanize Me!</button>
+
+
     </div>
   </body>
 
@@ -23,7 +38,21 @@
     var app = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue World'
+        message: 'Hello Vue World',
+        count: 0,
+        url: "",
+        humanUrl: ""
+      },
+      methods : {
+        countUp: function(){
+          this.count +=1;
+        },
+        countDown: function(){
+          this.count -=1;
+        },
+        humanizeUrl: function(){
+          this.humanUrl=this.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+        }
       }
     })
   </script>

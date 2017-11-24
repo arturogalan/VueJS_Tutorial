@@ -8,21 +8,98 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+
+    <style>
+      [v-cloak]{
+        background-color: red
+      }
+    </style>
   </head>
 
   <body>
     <div id="app">
-      <h1>{{message}}</h1>
+      <h1 v-text="message"></h1>
+      <h1 v-html="intro"></h1>
+      <h1 v-show="viewed">This only showed when true and always present in the DOM</h1>
+      <h1 v-if="viewed == viewed2">This only present in DOM when true</h1>
+      <h1 v-else>This only present in DOM when else true</h1>
+      <h1 v-pre>{{preformat-vue-doesnt-treat}}</h1>
+      <!-- Renders message only one time, afer that if you change message nothing happes -->
+      <h1 v-once>"message"<h1>
+        <!--  Renders at the end of the charge page can use it to have styles before the page is charged,
+      after the page charge the v-cloak tag is removed from dom -->
+      <h1 v-cloak>{{message}}</h1>
+      <!--binding-->
+      <img v-bind:src="url" v-bind:title="title"/>
+      <img :src="url" :alt="title" :title="title" />
+      <!--Looping example-->
+      <h2>For example:</h2>
+      <ul>
+        <li style="list-style-type:none;" v-for="todo in todolist">{{todo.id}}) {{todo.text}}</li>
+      </ul>
+      <ul>
+        <li v-for="count in count">Number: {{count}}</li>
+      </ul>
+
+      <!-- two way binding view-model-model-view-->
+      <h2>{{message}}</h2>
+      <input type="text" v-model="message">
+      <br>
+      <!-- passing the event in an own function to work with it-->
+      <button @click="miClickFunction(2,$event)">Click me!</button>
+      <p>{{counter}}</p>
+      <br>
+      <br>
+      <!-- event modifiers: call to preventDefault or to stopPorpagation without defining a method -->
+      <!-- with this shortcuts: mousemove.stop or mousemove.prevent or mousemove.stop.prevent -->
+      <p @mousemove="updateCoordinates">
+        Coordinates: {{ x }} / {{ y }}
+        - <span @mousemove.stop="">DEAD SPOT</span>
+      </p>
+      <br>
+      <br>
+      <!-- keyboard methods -->
+      <input type="text" @keyup.enter.space="alertMe">
+      <!-- javascript methods directly on the templates -->
+      <p>{{ counter > 2 ? 'Greater than 2' : 'Smaller than 2'}}</p>
     </div>
   </body>
 
-  <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue@2.4.2"></script>
 
   <script>
     var app = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue World'
+        message: 'Hello Vue World',
+        intro: '<b> ny text </b> <small> other styled text</small>',
+        viewed: true,
+        viewed2: true,
+        title: "You loaded the page on " + new Date(),
+        url: "http://vuejs.org/images/logo.png",
+        todolist: [
+            { text: 'Learn Vue' , id: 1 },
+            { text: 'Learn Framework 7', id:2 },
+            { text: 'Deploy in AWS', id:3 }
+       ],
+       count: 10,
+       counter: 0,
+       x:0,
+       y:0
+      },
+      methods: {
+        miClickFunction: function(increase,event){
+          this.counter += increase;
+        },
+        updateCoordinates : function(event){
+          this.x=event.clientX;
+          this.y=event.clientY;
+        },
+        alertMe: function(){
+          alert('Alert!');
+        }
       }
     })
   </script>
