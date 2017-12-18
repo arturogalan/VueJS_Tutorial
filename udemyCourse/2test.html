@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vue.js Tutorial | Directives</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+  <style>
+  </style>
+</head>
+
+<body>
+
+
+  <div id="exercise">
+    <!-- Difference between computed and method, computed only executed once and
+    takes care that when change secondCounter is not relevant and use cached result
+    No need to recalculate everytime other data variables are updated-->
+    <div>
+      <button @click="counter++">Increase</button>
+      <button @click="counter--">Decrease</button>
+      <button @click="secondCounter++">Increase 2nd</button>
+      <p>Counter: {{ counter }} | {{ secondCounter }}</p>
+      <p>Result: {{ result() }} | {{ output }}</p>
+    </div>
+
+  </div>
+</body>
+
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+<!-- <script src="https://unpkg.com/vue@2.4.2"></script> -->
+
+<script>
+  new Vue({
+    el: '#exercise',
+    data: {
+      counter: 0,
+      secondCounter: 0
+    },
+    computed: {
+      output: function () {
+        console.log('Computed');
+        return this.counter > 5 ? 'Greater 5' : 'Smaller than 5';
+      }
+    },
+    methods: {
+      result: function () {
+        console.log('Method');
+        return this.counter > 5 ? 'Greater 5' : 'Smaller than 5';
+      }
+    }
+  });
+</script>
+
+</html>
