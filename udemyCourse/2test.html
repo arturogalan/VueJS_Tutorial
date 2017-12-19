@@ -41,12 +41,24 @@
       counter: 0,
       secondCounter: 0
     },
+    // Important: Synchronized tasks that are cached and depends on the variables inside to be triggered.
     computed: {
       output: function () {
         console.log('Computed');
         return this.counter > 5 ? 'Greater 5' : 'Smaller than 5';
       }
     },
+    // Used for triggers with Unsynchronized tasks, put a watch on counter variable everytime it changes its value
+    //you can also watch a computed property
+    watch: {
+      counter: function(value) {
+        var vm = this;
+        setTimeout(()=>{
+          vm.counter = 0;
+        },3000);
+      }
+    },
+    //called allways, in every change all methods executed and recalculated
     methods: {
       result: function () {
         console.log('Method');

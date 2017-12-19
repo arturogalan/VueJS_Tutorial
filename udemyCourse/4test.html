@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .demo {
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+
+
+
+    <div id="exercise">
+        <!-- 
+            :class => The css class to aplly followed by the boolean expression that enables it
+            If the class name has underscores, you can also put into quotes like {'red': attachRed} 
+        -->
+        <div class="demo" @click="attachRed = !attachRed" :class="{red: attachRed}"></div>
+        <!-- We can put the json inside :class in a computed property -->
+        <div class="demo" :class="divClasses"></div>
+        <!-- we can put a variable with the name of the class to be applied directly -->
+        <div class="demo" :class="colorClass"></div>
+        <hr>
+        <input type="text" v-model="colorClass">
+        <!-- We also can put an array of classes and vue merges it into a css classes list
+        If is a class is the css class, if is and object then analizes like {classToBeApplied: booleanCondition}
+        So if we remove 'green' from the input and click the first div, this div is going to be red -->
+        <div class="demo" :class="[colorClass,{red: attachRed}]"></div>
+
+        <br/>
+        <br>
+        <br>
+        <br>
+
+        <hr>
+        <!-- We also can attach a variable to a style attribute, or return an computed object pre-mapped with internal attributes to define a style -->
+        <div class="demo" :style="{backgroundColor: color}"></div>
+        <div class="demo" :style="myStyle"></div>
+        <div class="demo" :style="[myStyle, {height: width + 'px'}]"></div>
+        <input type="text" v-model="color">
+        <input type="text" v-model="width">
+
+        
+
+</body>
+
+<script>
+    new Vue({
+        el: '#exercise',
+        data: {
+            attachRed: false,
+            colorClass: 'green',
+            color: 'violet',
+            width: 100
+
+        },
+        computed: {
+            // boolean expression to apply a class
+            divClasses: function () {
+                return {
+                    red: this.attachRed,
+                    blue: !this.attachRed
+                }
+            },
+            // style attributes with variables
+            myStyle: function () {
+                return {
+                    backgroundColor: this.color,
+                    width: this.width + 'px'
+                }
+            }
+        }
+    });
+</script>
